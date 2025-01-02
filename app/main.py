@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
-from controllers import url_controller
-from models import url
+from app.controllers import url_controller
+from app.models import url
 
 app = FastAPI()
 
