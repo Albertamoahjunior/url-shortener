@@ -10,7 +10,7 @@ app = FastAPI(
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the FastAPI Application!"}
+    return {"message": "Welcome our unique url shortener!"}
 
 @app.post("/shorten")
 async def shorten_url(request: Request, uri: url.UrlRequest):
