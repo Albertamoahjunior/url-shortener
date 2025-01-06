@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
-from controllers import url_controller
-from models import url
+from app.controllers import url_controller
+from app.models import url
 
 app = FastAPI()
 
@@ -13,7 +13,7 @@ async def shorten_url(request: Request, uri: url.UrlRequest):
     """
     Shorten a given URL.
     """
-    return {"short_url": url_controller.shortUrl(requestUrl=request.url, url=uri.url)}
+    return {"short_url": url_controller.shortUrl(requestUrl='shorten.elropheka.online/', url=uri.url)}
 
 @app.get("/{short_url}")
 async def get_original_url(short_url: str):
