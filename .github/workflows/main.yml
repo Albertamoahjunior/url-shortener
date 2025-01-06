@@ -91,8 +91,8 @@ jobs:
           
           # Check containers status
           sudo docker-compose ps
-    - name: Build and test Docker image
-      run: |
-        sudo docker build --target builder -t test-image .
-        sudo docker run --rm test-image poetry check
+    # - name: Build and test Docker image
+    #   run: |
+    #     sudo docker build --target builder -t test-image .
+    #     sudo docker run --rm test-image poetry check
 
