@@ -91,3 +91,8 @@ jobs:
           
           # Check containers status
           docker-compose ps
+    - name: Build and test Docker image
+      run: |
+        docker build --target builder -t test-image .
+        docker run --rm test-image poetry check
+

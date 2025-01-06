@@ -2,7 +2,11 @@ from fastapi import FastAPI, Request
 from app.controllers import url_controller
 from app.models import url
 
-app = FastAPI()
+app = FastAPI(
+    title="My custom url shortener API",
+    description="This is a custom url shortener API for testing purposes",  
+    version="1.0.0",  # Version of the API
+)
 
 @app.get("/")
 async def root():
