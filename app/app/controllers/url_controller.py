@@ -21,7 +21,8 @@ def shortUrl(requestUrl, url):
     hex_dig = hash_object.hexdigest()
     short_url = hex_dig[:6]
     url_store.set(short_url, url)
-    short_url = re.sub(r"shorten", "", str(requestUrl)) + short_url
+    
+    short_url = re.sub(r"shorten$", "", str(requestUrl)) + short_url
     return short_url
 
 def get_url(short_url):
