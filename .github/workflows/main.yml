@@ -3,9 +3,9 @@ name: Deploy url shortener
 
 on:
   push:
-    branches: [ dockerize ]
+    branches: [ main ]
   pull_request:
-    branches: [ dockerize ]
+    branches: [ main ]
 
 jobs:
   deploy:
