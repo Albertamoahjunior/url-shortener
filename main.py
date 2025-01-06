@@ -4,7 +4,7 @@ from app.models import url
 
 app = FastAPI(
     title="My custom url shortener API",
-    description="This is a custom url shortener API for testing purposes",  
+    description="URL  shortener API by elropheka",   
     version="1.0.0",  # Version of the API
 )
 
