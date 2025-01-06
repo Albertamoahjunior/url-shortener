@@ -81,18 +81,18 @@ jobs:
           EOL
           
           # Pull the latest images
-          docker-compose pull
+          sudo docker-compose pull
           
           # Stop and remove existing containers
-          docker-compose down
+          sudo docker-compose down
           
           # Start new containers
-          docker-compose up -d
+          sudo docker-compose up -d
           
           # Check containers status
-          docker-compose ps
+          sudo docker-compose ps
     - name: Build and test Docker image
       run: |
-        docker build --target builder -t test-image .
-        docker run --rm test-image poetry check
+        sudo docker build --target builder -t test-image .
+        sudo docker run --rm test-image poetry check
 
