@@ -3,7 +3,7 @@ from app.controllers import url_controller
 from app.models import url
 
 app = FastAPI(
-    title="My custom url shortener API",
+    title="Elropheka url shortener",
     description="URL  shortener API by elropheka",   
     version="1.0.0",  # Version of the API
 )
