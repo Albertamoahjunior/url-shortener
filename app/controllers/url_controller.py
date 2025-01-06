@@ -23,7 +23,7 @@ def shortUrl(requestUrl, url):
     url_store.set(short_url, url)
     
     short_url = re.sub(r"shorten$", "", str(requestUrl)) + short_url
-    return short_url
+    return "https://" + short_url
 
 def get_url(short_url):
     """
