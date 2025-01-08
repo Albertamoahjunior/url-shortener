@@ -2,13 +2,19 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Depends, HTTPException
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
-from app.controllers import url_controller
+from app.controllers import url_controller, monitor
 from app.models import url
 import redis.asyncio
+import dotenv
+import os
+
+
+# load environment variables
+dotenv.load_dotenv()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    redis_store = redis.asyncio.from_url("redis://localhost", encoding="utf-8", decode_responses=True)
+    redis_store = redis.asyncio.from_url(f"redis://{os.getenv('REDIS_HOST')}", encoding="utf-8", decode_responses=True)
     await FastAPILimiter.init(redis_store)
     yield
 
@@ -25,6 +31,8 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
+
+app.add_middleware(monitor.RequestMiddleware)
 
 async def rate_limit_key(request: Request) -> str:
     forwarded = request.headers.get("X-Forwarded-For")
