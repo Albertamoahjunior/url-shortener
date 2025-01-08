@@ -59,7 +59,7 @@ async def shorten_url(request: Request, uri: url.UrlRequest, _: bool = Depends(R
         raise HTTPException(status_code=400, detail=str(e))
 
 @app.get("/{short_url}")
-async def get_original_url(request: Request, short_url: str, _: bool = Depends(RateLimiter(times=20, hours=2, identifier=rate_limit_key))):
+async def get_original_url(request: Request, short_url: str, _: bool = Depends(RateLimiter(times=20, hours=1, identifier=rate_limit_key))):
     try:
         original_url = url_controller.get_url(short_url=short_url)
         if not original_url:
