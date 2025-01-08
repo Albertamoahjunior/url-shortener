@@ -11,6 +11,7 @@ load_dotenv()
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PORT = os.getenv('REDIS_PORT')
 
+
 url_store = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
 
 def shortUrl(requestUrl, url):
@@ -21,9 +22,8 @@ def shortUrl(requestUrl, url):
     hex_dig = hash_object.hexdigest()
     short_url = hex_dig[:6]
     url_store.set(short_url, url)
-    
     short_url = re.sub(r"shorten$", "", str(requestUrl)) + short_url
-    return "https://" + short_url
+    return short_url
 
 def get_url(short_url):
     """
