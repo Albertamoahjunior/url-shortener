@@ -7,6 +7,10 @@ from app.models import url
 import redis.asyncio
 import dotenv
 import os
+import requests
+import json
+from fastapi.responses import RedirectResponse 
+from typing import Optional
 
 
 # load environment variables
@@ -59,12 +63,31 @@ async def shorten_url(request: Request, uri: url.UrlRequest, _: bool = Depends(R
         raise HTTPException(status_code=400, detail=str(e))
 
 @app.get("/{short_url}")
-async def get_original_url(request: Request, short_url: str, _: bool = Depends(RateLimiter(times=20, hours=1, identifier=rate_limit_key))):
+async def get_original_url(request: Request, short_url: str, redirect: Optional[bool] = False, _: bool = Depends(RateLimiter(times=20, hours=1, identifier=rate_limit_key))):
     try:
         original_url = url_controller.get_url(short_url=short_url)
-        if not original_url:
-            raise HTTPException(status_code=404, detail="URL not found")
-        return {"original_url": original_url}
+
+        if isinstance(original_url, bytes):
+            original_url = original_url.decode('utf-8')
+
+        zap_url = os.getenv('ZAP_URL')
+        headers = {'Content-Type': 'application/json'}
+        data = {"url": original_url}
+        response = requests.post(zap_url, json=data, headers=headers)
+
+        if response.status_code != 200:
+            raise HTTPException(status_code=500, detail="Failed to send ZAP request")
+        else:
+            print(f"ZAP request sent successfully for {original_url}")
+
+        if original_url:
+            if redirect:
+                return RedirectResponse(url=f'//{original_url}')
+            else:
+                return {"original_url": original_url}
+        else:
+            raise HTTPException(status_code=404, detail="Shortened URL not found")
+        
     except HTTPException:
         raise
     except Exception as e:

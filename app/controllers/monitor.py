@@ -10,7 +10,7 @@ logging.basicConfig(
     level=logging.INFO,  # Set the minimum logging level
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Format of the log messages
     handlers=[
-        logging.StreamHandler(), # Output logs to the console (stdout)
+        #logging.StreamHandler(), # Output logs to the console (stdout)
         # log to a file 
         logging.FileHandler('app.log')
     ]
